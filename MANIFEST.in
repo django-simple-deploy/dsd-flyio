@@ -1,0 +1,4 @@
+include requirements.in
+recursive-include templates *
+global-exclude *.pyc
+global-exclude *.DS_Store

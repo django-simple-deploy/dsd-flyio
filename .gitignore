@@ -1,0 +1,21 @@
+.DS_Store
+
+*_env/
+
+*.pyc
+__pycache__/
+
+dist/
+*.egg-info
+
+bash_sandbox/
+
+docs/tmp_header.md
+
+# Using pip to install from a local directory leaves a build/ dir in the root of this
+#   project. Ignore this, in case it's not destroyed properly after testing.
+build/
+
+# Ignores the virtualenv directory
+dsd_env
+.venv/
