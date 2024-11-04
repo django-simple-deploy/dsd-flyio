@@ -26,13 +26,13 @@ def test_settings(tmp_project):
     This function only checks the entire settings file. It does not examine
       individual settings.
     """
-    hf.check_reference_file(tmp_project, "blog/settings.py", "fly_io")
+    hf.check_reference_file(tmp_project, "blog/settings.py", "dsd-flyio")
 
 
 def test_requirements_txt(tmp_project, pkg_manager):
     """Test that the requirements.txt file is correct."""
     if pkg_manager == "req_txt":
-        hf.check_reference_file(tmp_project, "requirements.txt", "fly_io")
+        hf.check_reference_file(tmp_project, "requirements.txt", "dsd-flyio")
     elif pkg_manager in ["poetry", "pipenv"]:
         assert not Path("requirements.txt").exists()
 
@@ -42,7 +42,7 @@ def test_pyproject_toml(tmp_project, pkg_manager):
     if pkg_manager in ("req_txt", "pipenv"):
         assert not Path("pyproject.toml").exists()
     elif pkg_manager == "poetry":
-        hf.check_reference_file(tmp_project, "pyproject.toml", "fly_io")
+        hf.check_reference_file(tmp_project, "pyproject.toml", "dsd-flyio")
 
 
 def test_pipfile(tmp_project, pkg_manager):
@@ -50,12 +50,12 @@ def test_pipfile(tmp_project, pkg_manager):
     if pkg_manager in ("req_txt", "poetry"):
         assert not Path("Pipfile").exists()
     elif pkg_manager == "pipenv":
-        hf.check_reference_file(tmp_project, "Pipfile", "fly_io")
+        hf.check_reference_file(tmp_project, "Pipfile", "dsd-flyio")
 
 
 def test_gitignore(tmp_project):
     """Test that .gitignore has been modified correctly."""
-    hf.check_reference_file(tmp_project, ".gitignore", "fly_io")
+    hf.check_reference_file(tmp_project, ".gitignore", "dsd-flyio")
 
 
 # --- Test Fly.io-specific files ---
@@ -64,7 +64,7 @@ def test_gitignore(tmp_project):
 def test_creates_fly_toml_file(tmp_project, pkg_manager):
     """Verify that fly.toml is created correctly."""
     if pkg_manager in ("req_txt", "poetry"):
-        hf.check_reference_file(tmp_project, "fly.toml", "fly_io")
+        hf.check_reference_file(tmp_project, "fly.toml", "dsd-flyio")
     elif pkg_manager == "pipenv":
         hf.check_reference_file(
             tmp_project, "fly.toml", "fly_io", reference_filename="pipenv.fly.toml"
@@ -74,7 +74,7 @@ def test_creates_fly_toml_file(tmp_project, pkg_manager):
 def test_creates_dockerfile(tmp_project, pkg_manager):
     """Verify that dockerfile is created correctly."""
     if pkg_manager == "req_txt":
-        hf.check_reference_file(tmp_project, "dockerfile", "fly_io")
+        hf.check_reference_file(tmp_project, "dockerfile", "dsd-flyio")
     elif pkg_manager == "poetry":
         hf.check_reference_file(
             tmp_project, "dockerfile", "fly_io", reference_filename="poetry.dockerfile"
