@@ -67,7 +67,7 @@ def test_creates_fly_toml_file(tmp_project, pkg_manager):
         hf.check_reference_file(tmp_project, "fly.toml", "dsd-flyio")
     elif pkg_manager == "pipenv":
         hf.check_reference_file(
-            tmp_project, "fly.toml", "fly_io", reference_filename="pipenv.fly.toml"
+            tmp_project, "fly.toml", "dsd-flyio", reference_filename="pipenv.fly.toml"
         )
 
 
@@ -77,11 +77,11 @@ def test_creates_dockerfile(tmp_project, pkg_manager):
         hf.check_reference_file(tmp_project, "dockerfile", "dsd-flyio")
     elif pkg_manager == "poetry":
         hf.check_reference_file(
-            tmp_project, "dockerfile", "fly_io", reference_filename="poetry.dockerfile"
+            tmp_project, "dockerfile", "dsd-flyio", reference_filename="poetry.dockerfile"
         )
     elif pkg_manager == "pipenv":
         hf.check_reference_file(
-            tmp_project, "dockerfile", "fly_io", reference_filename="pipenv.dockerfile"
+            tmp_project, "dockerfile", "dsd-flyio", reference_filename="pipenv.dockerfile"
         )
 
 
