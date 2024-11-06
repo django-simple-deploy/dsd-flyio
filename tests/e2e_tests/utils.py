@@ -1,6 +1,7 @@
 """Helper functions specific to Fly.io."""
 
 import re, time
+import json
 
 from tests.e2e_tests.utils.it_helper_functions import make_sp_call
 
@@ -53,15 +54,13 @@ def get_project_url_name():
     """Get project URL and app name of a deployed project.
     This is used when testing the automate_all workflow.
     """
-    output = make_sp_call("fly info", capture_output=True).stdout.decode().strip()
+    output = make_sp_call("fly status --json", capture_output=True).stdout.decode().strip()
+    status_json = json.loads(output)
 
-    re_app_name = r".*Hostname = (.*)\.fly\.dev"
-    app_name = re.search(re_app_name, output).group(1)
+    app_name = status_json["Name"]
+    project_url = f"https://{app_name}.fly.dev"
 
     print(f"  Found app name: {app_name}")
-
-    # Build URL.
-    project_url = f"https://{app_name}.fly.dev"
     print(f"  Project URL: {project_url}")
 
     return project_url, app_name
