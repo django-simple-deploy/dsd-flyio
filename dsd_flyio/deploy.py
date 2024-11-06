@@ -9,6 +9,7 @@ Notes:
 """
 
 import simple_deploy
+
 # from .platform_deployer import PlatformDeployer
 from dsd_flyio.platform_deployer import PlatformDeployer
 from . import deploy_messages as platform_msgs

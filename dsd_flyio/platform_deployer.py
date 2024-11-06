@@ -19,10 +19,14 @@ from . import deploy_messages as platform_msgs
 
 # from ..utils import plugin_utils
 from simple_deploy.management.commands.utils import plugin_utils
+
 # from ..utils.plugin_utils import sd_config
 # from ..utils.command_errors import SimpleDeployCommandError
 from simple_deploy.management.commands.utils.plugin_utils import sd_config
-from simple_deploy.management.commands.utils.command_errors import SimpleDeployCommandError
+from simple_deploy.management.commands.utils.command_errors import (
+    SimpleDeployCommandError,
+)
+
 
 class PlatformDeployer:
     """Perform the initial deployment to Fly.io

@@ -54,7 +54,9 @@ def get_project_url_name():
     """Get project URL and app name of a deployed project.
     This is used when testing the automate_all workflow.
     """
-    output = make_sp_call("fly status --json", capture_output=True).stdout.decode().strip()
+    output = (
+        make_sp_call("fly status --json", capture_output=True).stdout.decode().strip()
+    )
     status_json = json.loads(output)
 
     app_name = status_json["Name"]

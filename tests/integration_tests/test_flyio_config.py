@@ -77,11 +77,17 @@ def test_creates_dockerfile(tmp_project, pkg_manager):
         hf.check_reference_file(tmp_project, "dockerfile", "dsd-flyio")
     elif pkg_manager == "poetry":
         hf.check_reference_file(
-            tmp_project, "dockerfile", "dsd-flyio", reference_filename="poetry.dockerfile"
+            tmp_project,
+            "dockerfile",
+            "dsd-flyio",
+            reference_filename="poetry.dockerfile",
         )
     elif pkg_manager == "pipenv":
         hf.check_reference_file(
-            tmp_project, "dockerfile", "dsd-flyio", reference_filename="pipenv.dockerfile"
+            tmp_project,
+            "dockerfile",
+            "dsd-flyio",
+            reference_filename="pipenv.dockerfile",
         )
 
 
@@ -126,8 +132,14 @@ def test_log_dir(tmp_project):
     assert "INFO: Configuring project for deployment to Fly.io..." in log_file_text
 
     assert "INFO: CLI args:" in log_file_text
-    assert "INFO:   platform: fly_io" in log_file_text or "INFO:   platform: flyio" in log_file_text
-    assert "INFO: Deployment target: fly_io" in log_file_text or "INFO: Deployment target: flyio" in log_file_text
+    assert (
+        "INFO:   platform: fly_io" in log_file_text
+        or "INFO:   platform: flyio" in log_file_text
+    )
+    assert (
+        "INFO: Deployment target: fly_io" in log_file_text
+        or "INFO: Deployment target: flyio" in log_file_text
+    )
     assert "INFO:   Using plugin: dsd_flyio" in log_file_text
     assert "INFO: Local project name: blog" in log_file_text
     assert "INFO: git status --porcelain" in log_file_text
