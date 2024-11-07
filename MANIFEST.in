@@ -1,4 +1,4 @@
 include requirements.in
-recursive-include templates *
+recursive-include dsd_flyio/templates *
 global-exclude *.pyc
 global-exclude *.DS_Store
