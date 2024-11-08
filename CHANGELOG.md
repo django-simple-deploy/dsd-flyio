@@ -4,6 +4,16 @@ Changelog: dsd-flyio
 0.8 - First use of external plugins with django-simple-deploy
 ---
 
+### 0.8.4
+
+#### External changes
+
+- None
+
+#### Internal changes
+
+- Requires django-simple-deploy. This is more important for non-default plugins, but it means you can just install the plugin without having to also explicitly install django-simple-deploy.
+
 ### 0.8.3
 
 #### External changes
