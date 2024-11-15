@@ -29,7 +29,11 @@ def simple_deploy_get_automate_all_msg():
 
 @simple_deploy.hookimpl
 def simple_deploy_get_platform_name():
-    """Return the name of the platform that's being deployed to."""
+    """Return the name of the platform that's being deployed to.
+
+    DEV: Consider returning a config object if there ends up being more info to share
+    back to core.
+    """
     return "fly_io"
 
 
