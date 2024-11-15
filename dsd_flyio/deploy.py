@@ -28,6 +28,12 @@ def simple_deploy_get_automate_all_msg():
 
 
 @simple_deploy.hookimpl
+def simple_deploy_get_platform_name():
+    """Return the name of the platform that's being deployed to."""
+    return "fly_io"
+
+
+@simple_deploy.hookimpl
 def simple_deploy_deploy():
     """Carry out platform-specific deployment steps."""
     platform_deployer = PlatformDeployer()
