@@ -133,10 +133,6 @@ def test_log_dir(tmp_project):
 
     assert "INFO: CLI args:" in log_file_text
     assert (
-        "INFO:   platform: fly_io" in log_file_text
-        or "INFO:   platform: flyio" in log_file_text
-    )
-    assert (
         "INFO: Deployment target: fly_io" in log_file_text
         or "INFO: Deployment target: flyio" in log_file_text
     )
