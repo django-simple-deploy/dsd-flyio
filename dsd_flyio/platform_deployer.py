@@ -37,7 +37,6 @@ class PlatformDeployer:
     """
 
     def __init__(self):
-        """Receives config info about user's system, and this run of simple_deploy."""
         self.templates_path = Path(__file__).parent / "templates"
 
     # --- Public methods ---
@@ -488,7 +487,7 @@ class PlatformDeployer:
         the name app_name-db.
 
         We'll look for a db with that name, for example in case someone has already run
-        simple_deploy, but only gotten partway through the deployment process. If one
+        deploy, but only gotten partway through the deployment process. If one
         exists, we'll ask if we should use it. Otherwise, we'll just create a new db for
         the app.
 

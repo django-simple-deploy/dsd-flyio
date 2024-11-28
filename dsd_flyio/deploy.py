@@ -1,8 +1,7 @@
 """Manages all Fly.io-specific aspects of the deployment process.
 
 Notes:
-- Internal references to Fly.io will almost always be flyio. Public references, such as
-  the --platform argument, will be fly_io.
+- Internal references to Fly.io will almost always be flyio. Public references, may be fly_io.
 - self.deployed_project_name and self.app_name are identical. The first is used in the
   simple_deploy CLI, but Fly refers to "apps" in their docs. This redundancy makes it
   easier to code Fly CLI commands.
@@ -10,7 +9,6 @@ Notes:
 
 import simple_deploy
 
-# from .platform_deployer import PlatformDeployer
 from dsd_flyio.platform_deployer import PlatformDeployer
 from . import deploy_messages as platform_msgs
 
