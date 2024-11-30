@@ -210,7 +210,7 @@ def success_msg(log_output=""):
         - Push your project to Fly.io's servers:
             $ fly deploy
         - Open your project:
-            $ fly open    
+            $ fly apps open    
         - As you develop your project further:
             - Make local changes
             - Commit your local changes
