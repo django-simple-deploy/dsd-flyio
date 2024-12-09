@@ -1,6 +1,20 @@
 Changelog: dsd-flyio
 ===
 
+0.9 - Simplified usage from core
+---
+
+### 0.9.0
+
+#### External changes
+
+- Success message shows updated `fly apps open` command.
+
+#### Internal changes
+
+- Hook implementation returns platform name.
+- Simplifies packaging config.
+
 0.8 - First use of external plugins with django-simple-deploy
 ---
 
