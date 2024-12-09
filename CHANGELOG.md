@@ -4,10 +4,21 @@ Changelog: dsd-flyio
 0.9 - Simplified usage from core
 ---
 
-### 0.9.0
+### 0.9.1
 
 #### External changes
 
+- Includes necessary templates.
+
+#### Internal changes
+
+- Adds required MANIFEST.in file.
+
+### 0.9.0 (broken)
+
+#### External changes
+
+- (Bug) Does not include required template files.
 - Success message shows updated `fly apps open` command.
 
 #### Internal changes
