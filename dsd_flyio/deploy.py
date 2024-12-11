@@ -11,28 +11,36 @@ import simple_deploy
 
 from dsd_flyio.platform_deployer import PlatformDeployer
 from . import deploy_messages as platform_msgs
+from .plugin_config import PluginConfig
 
 
 @simple_deploy.hookimpl
-def simple_deploy_automate_all_supported():
-    """Specify whether --automate-all is supported on the specified platform."""
-    return True
+def simple_deploy_get_plugin_config():
+    """Get platform-specific attributes needed by core."""
+    plugin_config = PluginConfig()
+    return plugin_config
 
 
-@simple_deploy.hookimpl
-def simple_deploy_get_automate_all_msg():
-    """Get platform-specific confirmation message for --automate-all flag."""
-    return platform_msgs.confirm_automate_all
+# @simple_deploy.hookimpl
+# def simple_deploy_automate_all_supported():
+#     """Specify whether --automate-all is supported on the specified platform."""
+#     return True
 
 
-@simple_deploy.hookimpl
-def simple_deploy_get_platform_name():
-    """Return the name of the platform that's being deployed to.
+# @simple_deploy.hookimpl
+# def simple_deploy_get_automate_all_msg():
+#     """Get platform-specific confirmation message for --automate-all flag."""
+#     return platform_msgs.confirm_automate_all
 
-    DEV: Consider returning a config object if there ends up being more info to share
-    back to core.
-    """
-    return "fly_io"
+
+# @simple_deploy.hookimpl
+# def simple_deploy_get_platform_name():
+#     """Return the name of the platform that's being deployed to.
+
+#     DEV: Consider returning a config object if there ends up being more info to share
+#     back to core.
+#     """
+#     return "fly_io"
 
 
 @simple_deploy.hookimpl
