@@ -25,12 +25,12 @@ Okay, cancelling Fly.io configuration and deployment.
 cli_not_installed = """
 In order to deploy to Fly.io, you need to install the Fly.io CLI.
   See here: https://fly.io/docs/flyctl/
-After installing the CLI, you can run simple_deploy again.
+After installing the CLI, you can run the deploy command again.
 """
 
 cli_logged_out = """
 You are currently logged out of the Fly.io CLI. Please log in,
-  and then run simple_deploy again.
+  and then run the deploy command again.
 You can log in from  the command line:
   $ fly auth login
 """
@@ -43,20 +43,20 @@ overwrite this block, and everything that follows in settings.py?
 cant_overwrite_settings = """
 In order to configure the project for deployment, we need to write a Fly.io-specific
 settings block. Please remove the current Fly.io-specific settings, and then run
-simple_deploy again.
+the deploy command again.
 """
 
 no_project_name = """
 A suitable Fly.io app to deploy against could not be found.
 
-The simple_deploy command expects that you've already created an app on Fly.io
+The deploy command expects that you've already created an app on Fly.io
 to push to.
 
 If you haven't done so, run the following command to create a new Fly.io app:
 
     $ fly apps create --generate-name
 
-Then run simple_deploy again.
+Then run the deploy command again.
 
 Note: Apps that have already been deployed to are ignored, to ensure that existing
   projects are not impacted by this deployment.
@@ -65,14 +65,14 @@ Note: Apps that have already been deployed to are ignored, to ensure that existi
 create_app_failed = """
 Could not create a Fly.io app.
 
-The simple_deploy command can not proceed without a Fly.io app to deploy to.
+The deploy command can not proceed without a Fly.io app to deploy to.
 You may have better luck with a configuration-only run, if you can create a Fly.io
 app on your own. You may try the following command, and see if you can use any 
 error messages to troubleshoot app creation:
 
     $ fly apps create --generate-name
 
-If you can get this command to work, you can run simple_deploy again (without the
+If you can get this command to work, you can run the deploy command again (without the
   --automate-all flag), and the rest of the process may work.
 """
 
@@ -144,7 +144,7 @@ def use_attached_db(db_name, users):
         *** Found a database whose name matches the app name: {db_name} ***
         This is the naming convention used by simple_deploy, so this is
           probably a database that was created for you by a previous
-          simple_deploy run.
+          run of the deploy command.
         This database has the following users:
           {users}
         Three of these are the default users, and the fourth is the name of the 
@@ -163,7 +163,7 @@ def use_unattached_db(db_name, users):
         *** Found a database whose name matches the app name: {db_name} ***
         This is the naming convention used by simple_deploy, so this is
           probably a database that was created for you by a previous
-          simple_deploy run.
+          run of the deploy command.
         This database has the following users:
           {users}
         These are the default users for a Fly.io Postgres database. This database
