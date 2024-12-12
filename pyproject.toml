@@ -40,11 +40,6 @@ dependencies = [
     "django-simple-deploy>=0.9.0"
 ]
 
-[project.optional-dependencies]
-fly_io = ["dsd-flyio"]
-platform_sh = ["dsd-platformsh"]
-heroku = ["dsd-heroku"]
-
 dev = [
     "black>=24.1.0",
     "build>=1.2.1",
