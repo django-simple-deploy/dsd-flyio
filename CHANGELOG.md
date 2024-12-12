@@ -4,6 +4,17 @@ Changelog: dsd-flyio
 0.9 - Simplified usage from core
 ---
 
+### 0.9.2 (unreleased)
+
+#### External changes
+
+- Use Fly.io as platform name, in logs.
+- More consistent use of deploy command instead of deprecated simple_deploy command in messaging.
+
+#### Internal changes
+
+- Uses config instead of returning individual attributes to core.
+
 ### 0.9.1
 
 #### External changes
