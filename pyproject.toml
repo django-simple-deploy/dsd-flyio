@@ -62,3 +62,4 @@ packages = [
     "dsd_flyio",
     "dsd_flyio.templates",
 ]
+include-package-data = true
