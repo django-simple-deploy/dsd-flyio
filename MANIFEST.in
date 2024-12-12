@@ -1,2 +1,2 @@
-include requirements.in
+include LICENSE
 recursive-include dsd_flyio/templates *

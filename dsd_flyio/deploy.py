@@ -10,7 +10,6 @@ Notes:
 import simple_deploy
 
 from dsd_flyio.platform_deployer import PlatformDeployer
-from . import deploy_messages as platform_msgs
 from .plugin_config import PluginConfig
 
 

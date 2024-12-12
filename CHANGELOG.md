@@ -14,6 +14,7 @@ Changelog: dsd-flyio
 #### Internal changes
 
 - Uses config instead of returning individual attributes to core.
+- Simplified packaging; all setup.cfg config moved to pyproject.toml.
 
 ### 0.9.1
 
