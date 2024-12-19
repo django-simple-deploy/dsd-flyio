@@ -4,7 +4,7 @@ Changelog: dsd-flyio
 0.9 - Simplified usage from core
 ---
 
-### 0.9.2 (unreleased)
+### 0.9.2
 
 #### External changes
 
