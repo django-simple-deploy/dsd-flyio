@@ -4,7 +4,7 @@ Notes:
 - Internal references to Fly.io will almost always be flyio. Public references, such as
   the --platform argument, will be fly_io.
 - self.deployed_project_name and self.app_name are identical. The first is used in the
-  simple_deploy CLI, but Fly refers to "apps" in their docs. This redundancy makes it
+  django-simple-deploy CLI, but Fly refers to "apps" in their docs. This redundancy makes it
   easier to code Fly CLI commands.
 """
 
@@ -18,12 +18,12 @@ import requests
 from . import deploy_messages as platform_msgs
 
 # from ..utils import plugin_utils
-from simple_deploy.management.commands.utils import plugin_utils
+from django_simple_deploy.management.commands.utils import plugin_utils
 
 # from ..utils.plugin_utils import sd_config
 # from ..utils.command_errors import SimpleDeployCommandError
-from simple_deploy.management.commands.utils.plugin_utils import sd_config
-from simple_deploy.management.commands.utils.command_errors import (
+from django_simple_deploy.management.commands.utils.plugin_utils import sd_config
+from django_simple_deploy.management.commands.utils.command_errors import (
     SimpleDeployCommandError,
 )
 
@@ -75,7 +75,7 @@ class PlatformDeployer:
         """
         if sd_config.unit_testing:
             # Unit tests don't use the platform's CLI. Use the deployed project name
-            # that was passed to the simple_deploy CLI.
+            # that was passed to the django-simple-deploy CLI.
             self.deployed_project_name = sd_config.deployed_project_name
             return
 

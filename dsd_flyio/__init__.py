@@ -1,2 +1,2 @@
-from .deploy import simple_deploy_get_plugin_config
-from .deploy import simple_deploy_deploy
+from .deploy import dsd_get_plugin_config
+from .deploy import dsd_deploy
