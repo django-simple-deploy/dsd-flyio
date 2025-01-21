@@ -221,7 +221,7 @@ def success_msg(log_output=""):
     if log_output:
         msg += dedent(
             f"""
-        - You can find a full record of this configuration in the django_simple_deploy_logs directory.
+        - You can find a full record of this configuration in the dsd_logs directory.
         """
         )
 
