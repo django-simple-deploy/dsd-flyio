@@ -9,7 +9,7 @@ import pytest
 from tests.integration_tests.utils import it_helper_functions as hf
 from tests.integration_tests.conftest import (
     tmp_project,
-    run_simple_deploy,
+    run_dsd,
     reset_test_project,
     pkg_manager,
 )
