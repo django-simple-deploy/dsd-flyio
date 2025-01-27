@@ -4,6 +4,16 @@ Changelog: dsd-flyio
 0.9 - Simplified usage from core
 ---
 
+### 0.9.3
+
+#### External changes
+
+- Updated to match core app name change from `simple_deploy` to `django-simple-deploy`.
+
+#### Internal changes
+
+- Minor naming changes to make project consistent with current names in core.
+
 ### 0.9.2
 
 #### External changes
