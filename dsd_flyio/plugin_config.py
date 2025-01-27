@@ -6,7 +6,7 @@ from . import deploy_messages as platform_msgs
 class PluginConfig:
     """Class for managing attributes that need to be shared with core.
 
-    This is similar to the class SDConfig in core's sd_config.py.
+    This is similar to the class DSDConfig in core's dsd_config.py.
 
     This should future-proof plugins somewhat, in that if more information needs
     to be shared back to core, it can be added here without breaking changes to the

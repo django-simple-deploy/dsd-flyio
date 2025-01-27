@@ -4,7 +4,7 @@ Notes:
 - Internal references to Fly.io will almost always be flyio. Public references, such as
   the --platform argument, will be fly_io.
 - self.deployed_project_name and self.app_name are identical. The first is used in the
-  simple_deploy CLI, but Fly refers to "apps" in their docs. This redundancy makes it
+  django-simple-deploy CLI, but Fly refers to "apps" in their docs. This redundancy makes it
   easier to code Fly CLI commands.
 """
 
@@ -18,13 +18,13 @@ import requests
 from . import deploy_messages as platform_msgs
 
 # from ..utils import plugin_utils
-from simple_deploy.management.commands.utils import plugin_utils
+from django_simple_deploy.management.commands.utils import plugin_utils
 
-# from ..utils.plugin_utils import sd_config
-# from ..utils.command_errors import SimpleDeployCommandError
-from simple_deploy.management.commands.utils.plugin_utils import sd_config
-from simple_deploy.management.commands.utils.command_errors import (
-    SimpleDeployCommandError,
+# from ..utils.plugin_utils import dsd_config
+# from ..utils.command_errors import DSDCommandError
+from django_simple_deploy.management.commands.utils.plugin_utils import dsd_config
+from django_simple_deploy.management.commands.utils.command_errors import (
+    DSDCommandError,
 )
 
 
@@ -71,12 +71,12 @@ class PlatformDeployer:
             None
 
         Raises:
-            SimpleDeployCommandError: If we find any reason deployment won't work.
+            DSDCommandError: If we find any reason deployment won't work.
         """
-        if sd_config.unit_testing:
+        if dsd_config.unit_testing:
             # Unit tests don't use the platform's CLI. Use the deployed project name
-            # that was passed to the simple_deploy CLI.
-            self.deployed_project_name = sd_config.deployed_project_name
+            # that was passed to the django-simple-deploy CLI.
+            self.deployed_project_name = dsd_config.deployed_project_name
             return
 
         self._check_flyio_settings()
@@ -97,7 +97,7 @@ class PlatformDeployer:
 
     def _set_env_vars(self):
         """Set Fly.io-specific environment variables."""
-        if sd_config.unit_testing:
+        if dsd_config.unit_testing:
             return
 
         self._set_on_flyio()
@@ -131,29 +131,29 @@ class PlatformDeployer:
         """
 
         # Build file contents from template and context.
-        if sd_config.pkg_manager == "poetry":
+        if dsd_config.pkg_manager == "poetry":
             dockerfile_template = "dockerfile_poetry"
-        elif sd_config.pkg_manager == "pipenv":
+        elif dsd_config.pkg_manager == "pipenv":
             dockerfile_template = "dockerfile_pipenv"
         else:
             dockerfile_template = "dockerfile"
         template_path = self.templates_path / dockerfile_template
 
         context = {
-            "django_project_name": sd_config.local_project_name,
+            "django_project_name": dsd_config.local_project_name,
         }
 
         contents = plugin_utils.get_template_string(template_path, context)
 
         # Write file to project.
-        path = sd_config.project_root / "Dockerfile"
+        path = dsd_config.project_root / "Dockerfile"
         plugin_utils.add_file(path, contents)
 
     def _add_dockerignore(self):
         """Add a dockerignore file, based on user's local project environmnet.
         Ignore virtual environment dir, system-specific cruft, and IDE cruft.
         """
-        path = sd_config.project_root / ".dockerignore"
+        path = dsd_config.project_root / ".dockerignore"
         dockerignore_str = self._build_dockerignore()
         plugin_utils.add_file(path, dockerignore_str)
 
@@ -164,12 +164,12 @@ class PlatformDeployer:
         template_path = self.templates_path / "fly.toml"
         context = {
             "deployed_project_name": self.deployed_project_name,
-            "using_pipenv": (sd_config.pkg_manager == "pipenv"),
+            "using_pipenv": (dsd_config.pkg_manager == "pipenv"),
         }
         contents = plugin_utils.get_template_string(template_path, context)
 
         # Write file to project.
-        path = sd_config.project_root / "fly.toml"
+        path = dsd_config.project_root / "fly.toml"
         plugin_utils.add_file(path, contents)
 
     def _modify_settings(self):
@@ -194,7 +194,7 @@ class PlatformDeployer:
         - Call `fly apps open`, and grab URL.
         """
         # Making this check here lets deploy() be cleaner.
-        if not sd_config.automate_all:
+        if not dsd_config.automate_all:
             return
 
         plugin_utils.commit_changes()
@@ -222,10 +222,10 @@ class PlatformDeployer:
 
         Describe ongoing approach of commit, push, migrate.
         """
-        if sd_config.automate_all:
+        if dsd_config.automate_all:
             msg = platform_msgs.success_msg_automate_all(self.deployed_url)
         else:
-            msg = platform_msgs.success_msg(log_output=sd_config.log_output)
+            msg = platform_msgs.success_msg(log_output=dsd_config.log_output)
         plugin_utils.write_output(msg)
 
     def _set_secret(self, needle, secret):
@@ -263,7 +263,7 @@ class PlatformDeployer:
         dockerignore_str = ".git/\n"
 
         # Ignore venv dir if a venv is active.
-        if sd_config.unit_testing:
+        if dsd_config.unit_testing:
             # Unit tests build a venv dir, but use the direct path to the venv. They
             # don't run in an active venv.
             venv_dir = "b_env"
@@ -278,7 +278,7 @@ class PlatformDeployer:
         dockerignore_str += "\n__pycache__/\n*.pyc\n\n*.sqlite3\n"
 
         # If on macOS, ignore .DS_Store.
-        if sd_config.on_macos:
+        if dsd_config.on_macos:
             dockerignore_str += "\n.DS_Store\n"
 
         return dockerignore_str
@@ -303,13 +303,13 @@ class PlatformDeployer:
         try:
             output_obj = plugin_utils.run_quick_command(cmd)
         except FileNotFoundError:
-            raise SimpleDeployCommandError(platform_msgs.cli_not_installed)
+            raise DSDCommandError(platform_msgs.cli_not_installed)
 
         plugin_utils.log_info(output_obj)
 
         # DEV: Note which OS this block runs on; I believe it's macOS.
         if output_obj.returncode:
-            raise SimpleDeployCommandError(platform_msgs.cli_not_installed)
+            raise DSDCommandError(platform_msgs.cli_not_installed)
 
         # Check that user is authenticated.
         cmd = "fly auth whoami --json"
@@ -317,7 +317,7 @@ class PlatformDeployer:
 
         error_msg = "Error: No access token available."
         if error_msg in output_obj.stderr.decode():
-            raise SimpleDeployCommandError(platform_msgs.cli_logged_out)
+            raise DSDCommandError(platform_msgs.cli_logged_out)
 
         # Show current authenticated fly user.
         whoami_json = json.loads(output_obj.stdout.decode())
@@ -348,7 +348,7 @@ class PlatformDeployer:
             using --automate-all.
 
         Raises:
-            SimpleDeployCommandError: If deployed project name can't be found.
+            DSDCommandError: If deployed project name can't be found.
         """
         msg = "\nLooking for Fly.io app to deploy against..."
         plugin_utils.write_output(msg)
@@ -390,10 +390,10 @@ class PlatformDeployer:
 
         if not project_names:
             # No app name found.
-            if sd_config.automate_all:
+            if dsd_config.automate_all:
                 self.app_name = self._create_flyio_app()
             else:
-                raise SimpleDeployCommandError(platform_msgs.no_project_name)
+                raise DSDCommandError(platform_msgs.no_project_name)
         elif len(project_names) == 1:
             # Only one app name found. Confirm we can deploy to this app.
             project_name = project_names[0]
@@ -403,10 +403,10 @@ class PlatformDeployer:
             prompt = "Is this the app you want to deploy to?"
             if plugin_utils.get_confirmation(prompt):
                 self.app_name = project_name
-            elif sd_config.automate_all:
+            elif dsd_config.automate_all:
                 self.app_name = self._create_flyio_app()
             else:
-                raise SimpleDeployCommandError(platform_msgs.no_project_name)
+                raise DSDCommandError(platform_msgs.no_project_name)
         else:
             # More than one undeployed app found. `apps list` doesn't show
             # much specific information for undeployed apps. For exmaple we
@@ -415,7 +415,7 @@ class PlatformDeployer:
 
             # Rather than a bunch of conditional logic about automate-all runs, just add
             # "Create a new app" for automated runs. If that's chosen, create a new app.
-            if sd_config.automate_all:
+            if dsd_config.automate_all:
                 project_names.append("Create a new app")
 
             # Show all undeployed apps, ask user to make selection.
@@ -458,7 +458,7 @@ class PlatformDeployer:
             str: self.app_name
 
         Raises:
-            SimpleDeployCommandError: if an app can't be created.
+            DSDCommandError: if an app can't be created.
         """
         msg = "  Creating a new app on Fly.io..."
         plugin_utils.write_output(msg)
@@ -473,7 +473,7 @@ class PlatformDeployer:
         try:
             self.app_name = app_dict["Name"]
         except KeyError:
-            raise SimpleDeployCommandError(platform_msgs.create_app_failed)
+            raise DSDCommandError(platform_msgs.create_app_failed)
         else:
             msg = f"  Created new app: {self.app_name}"
             plugin_utils.write_output(msg)
@@ -498,7 +498,7 @@ class PlatformDeployer:
             None
 
         Raises:
-            SimpleDeployCommandError: If can't create a new db, or don't get
+            DSDCommandError: If can't create a new db, or don't get
             permission to use existing db with matching name.
         """
         msg = "Looking for a Postgres database..."
@@ -615,7 +615,7 @@ class PlatformDeployer:
             None: If we can use and configure existing db.
 
         Raises:
-            SimpleDeployCommandError: If we can't use existing db, or fail to configure
+            DSDCommandError: If we can't use existing db, or fail to configure
             it correctly.
         """
         if self._check_db_attached():
@@ -637,7 +637,7 @@ class PlatformDeployer:
             bool: True if attached to this app, False if not attached.
 
         Raises:
-            SimpleDeployCommandError: If this db has users in addtion to the default db
+            DSDCommandError: If this db has users in addtion to the default db
             users and a user corresponding to this app, we raise an error.
         """
         # Get users of this db.
@@ -667,7 +667,7 @@ class PlatformDeployer:
             # Note: This path has only been tested once, by manually adding
             # "dummy-user" to the list of db users."
             msg = platform_msgs.cant_use_db(self.db_name, self.db_users)
-            raise SimpleDeployCommandError(msg)
+            raise DSDCommandError(msg)
 
     def _confirm_use_attached_db(self):
         """Confirm it's okay to use db that's already attached to this app.
@@ -676,7 +676,7 @@ class PlatformDeployer:
             None: If confirmation granted.
 
         Raises:
-            SimpleDeployCommandError: If confirmation denied.
+            DSDCommandError: If confirmation denied.
         """
         msg = platform_msgs.use_attached_db(self.db_name, self.db_users)
         plugin_utils.write_output(msg)
@@ -685,7 +685,7 @@ class PlatformDeployer:
         if not plugin_utils.get_confirmation(msg):
             # Permission to use this db denied. Can't simply create a new db,
             # because the name we'd use is already taken.
-            raise SimpleDeployCommandError(platform_msgs.cancel_no_db)
+            raise DSDCommandError(platform_msgs.cancel_no_db)
 
     def _confirm_use_unattached_db(self):
         """Confirm it's okay to use db whose name matches this app, but hasn't
@@ -700,7 +700,7 @@ class PlatformDeployer:
             None: If confirmation given.
 
         Raises:
-            SimpleDeployCommandError: If confirmation denied.
+            DSDCommandError: If confirmation denied.
         """
         msg = platform_msgs.use_unattached_db(self.db_name, self.db_users)
         plugin_utils.write_output(msg)
@@ -713,7 +713,7 @@ class PlatformDeployer:
             # Permission to use this db denied.
             # Can't simply create a new db, because the name we'd use is
             # already taken.
-            raise SimpleDeployCommandError(platform_msgs.cancel_no_db)
+            raise DSDCommandError(platform_msgs.cancel_no_db)
 
     def _confirm_create_db(self, db_cmd):
         """Confirm the user wants a database created on their behalf.
@@ -722,19 +722,19 @@ class PlatformDeployer:
             None
 
         Raises:
-            SimpleDeployCommandError: If not confirmed.
+            DSDCommandError: If not confirmed.
         """
         # Ignore this check during testing, and when using --automate-all.
-        if sd_config.unit_testing or sd_config.automate_all:
+        if dsd_config.unit_testing or dsd_config.automate_all:
             return
 
         # Show the command that will be run on the user's behalf.
-        sd_config.stdout.write(platform_msgs.confirm_create_db(db_cmd))
+        dsd_config.stdout.write(platform_msgs.confirm_create_db(db_cmd))
         if plugin_utils.get_confirmation():
-            sd_config.stdout.write("  Creating database...")
+            dsd_config.stdout.write("  Creating database...")
         else:
             # Quit and invite the user to create a database manually.
-            raise SimpleDeployCommandError(platform_msgs.cancel_no_db)
+            raise DSDCommandError(platform_msgs.cancel_no_db)
 
     def _attach_db(self):
         """Attach the database to the app."""

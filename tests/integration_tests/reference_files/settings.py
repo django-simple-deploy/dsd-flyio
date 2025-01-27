@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     "blogs",
     "users",
     # Third party apps.
-    "simple_deploy",
+    "django_simple_deploy",
     "django_bootstrap5",
     # Default django apps.
     "django.contrib.admin",

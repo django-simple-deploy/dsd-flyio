@@ -8,7 +8,7 @@ from django.conf import settings
 
 
 confirm_automate_all = """
-The --automate-all flag means simple_deploy will:
+The --automate-all flag means the deploy command will:
 - Run `fly apps create` for you, to create an empty Fly.io project.
 - Run `fly postgres create`, to create a new database for your project.
 - Configure your project for deployment on Fly.io.
@@ -79,7 +79,7 @@ If you can get this command to work, you can run the deploy command again (witho
 cancel_no_db = """
 A database is required for deployment. You may be able to create a database
   manually, and configure it to work with this app.
-If you think there's a database that simple_deploy should be able to use,
+If you think there's a database that django-simple-deploy should be able to use,
   please open an issue: https://github.com/ehmatthes/django-simple-deploy/issues
 """
 
@@ -142,7 +142,7 @@ def use_attached_db(db_name, users):
     msg = dedent(
         f"""
         *** Found a database whose name matches the app name: {db_name} ***
-        This is the naming convention used by simple_deploy, so this is
+        This is the naming convention used by django-simple-deploy, so this is
           probably a database that was created for you by a previous
           run of the deploy command.
         This database has the following users:
@@ -161,7 +161,7 @@ def use_unattached_db(db_name, users):
     msg = dedent(
         f"""
         *** Found a database whose name matches the app name: {db_name} ***
-        This is the naming convention used by simple_deploy, so this is
+        This is the naming convention used by django-simple-deploy, so this is
           probably a database that was created for you by a previous
           run of the deploy command.
         This database has the following users:
@@ -221,7 +221,7 @@ def success_msg(log_output=""):
     if log_output:
         msg += dedent(
             f"""
-        - You can find a full record of this configuration in the simple_deploy_logs directory.
+        - You can find a full record of this configuration in the dsd_logs directory.
         """
         )
 
