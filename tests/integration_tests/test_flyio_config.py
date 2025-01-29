@@ -47,10 +47,13 @@ def test_settings(tmp_project):
     hf.check_reference_file(tmp_project, "blog/settings.py", "dsd-flyio")
 
 
-def test_requirements_txt(tmp_project, pkg_manager, req_txt_modified):
+def test_requirements_txt(tmp_project, pkg_manager, tmp_path):
     """Test that the requirements.txt file is correct."""
     if pkg_manager == "req_txt":
-        hf.check_reference_file(tmp_project, "requirements.txt", reference_filepath=req_txt_modified)
+        # hf.check_reference_file(tmp_project, "requirements.txt", reference_filepath=req_txt_modified)
+        dsd_version = version("django_simple_deploy")
+        context = {"current-version": dsd_version}
+        hf.check_reference_file(tmp_project, "requirements.txt", "dsd-flyio", context=context, tmp_path=tmp_path)
     elif pkg_manager in ["poetry", "pipenv"]:
         assert not Path("requirements.txt").exists()
 
