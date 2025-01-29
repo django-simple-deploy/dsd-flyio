@@ -73,11 +73,11 @@ def check_log(tmp_proj_dir):
 
     Checks that log file exists, and that DATABASE_URL is not logged.
     """
-    path = tmp_proj_dir / "simple_deploy_logs"
+    path = tmp_proj_dir / "dsd_logs"
     if not path.exists():
         return False
 
-    log_files = list(path.glob("simple_deploy_*.log"))
+    log_files = list(path.glob("dsd_*.log"))
     if not log_files:
         return False
 
