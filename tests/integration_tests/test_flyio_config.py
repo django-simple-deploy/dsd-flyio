@@ -13,7 +13,7 @@ from tests.integration_tests.conftest import (
     run_dsd,
     reset_test_project,
     pkg_manager,
-    dsd_version
+    dsd_version,
 )
 
 
@@ -21,6 +21,7 @@ from tests.integration_tests.conftest import (
 
 
 # --- Test modifications to project files. ---
+
 
 def test_settings(tmp_project):
     """Verify there's a Fly.io-specific settings section.
@@ -34,7 +35,13 @@ def test_requirements_txt(tmp_project, pkg_manager, tmp_path, dsd_version):
     """Test that the requirements.txt file is correct."""
     if pkg_manager == "req_txt":
         context = {"current-version": dsd_version}
-        hf.check_reference_file(tmp_project, "requirements.txt", "dsd-flyio", context=context, tmp_path=tmp_path)
+        hf.check_reference_file(
+            tmp_project,
+            "requirements.txt",
+            "dsd-flyio",
+            context=context,
+            tmp_path=tmp_path,
+        )
     elif pkg_manager in ["poetry", "pipenv"]:
         assert not Path("requirements.txt").exists()
 
