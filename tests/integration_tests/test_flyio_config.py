@@ -46,12 +46,13 @@ def test_requirements_txt(tmp_project, pkg_manager, tmp_path, dsd_version):
         assert not Path("requirements.txt").exists()
 
 
-def test_pyproject_toml(tmp_project, pkg_manager):
+def test_pyproject_toml(tmp_project, pkg_manager, tmp_path, dsd_version):
     """Test that pyproject.toml is correct."""
     if pkg_manager in ("req_txt", "pipenv"):
         assert not Path("pyproject.toml").exists()
     elif pkg_manager == "poetry":
-        hf.check_reference_file(tmp_project, "pyproject.toml", "dsd-flyio")
+        context = {"current-version": dsd_version}
+        hf.check_reference_file(tmp_project, "pyproject.toml", "dsd-flyio", context=context, tmp_path=tmp_path)
 
 
 def test_pipfile(tmp_project, pkg_manager):

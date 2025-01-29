@@ -20,7 +20,7 @@ requests = "*"
 optional = true
 
 [tool.poetry.group.deploy.dependencies]
-django-simple-deploy = "*"
+django-simple-deploy = "=={current-version}"
 gunicorn = "*"
 psycopg2-binary = "*"
 dj-database-url = "*"
