@@ -13,28 +13,11 @@ from tests.integration_tests.conftest import (
     run_dsd,
     reset_test_project,
     pkg_manager,
+    dsd_version
 )
 
 
 # --- Fixtures ---
-@pytest.fixture(scope="function")
-def req_txt_modified(tmp_path):
-    """Get a version of the req.txt reference file with the correct dsd version.
-
-    Returns:
-        pathlib.Path: tmp path to correct version of req.txt file.
-    """
-    path_original = Path(__file__).parent / "reference_files" / "requirements.txt"
-    path_modified = tmp_path / "requirements.txt"
-
-    contents_original = path_original.read_text()
-    # We don't have access to dsd_config in tests, so get dsd version directly here.
-    dsd_version = version("django_simple_deploy")
-    contents = contents_original.replace("{current-version}", dsd_version)
-
-    path_modified.write_text(contents)
-
-    return path_modified
 
 
 # --- Test modifications to project files. ---
@@ -47,11 +30,9 @@ def test_settings(tmp_project):
     hf.check_reference_file(tmp_project, "blog/settings.py", "dsd-flyio")
 
 
-def test_requirements_txt(tmp_project, pkg_manager, tmp_path):
+def test_requirements_txt(tmp_project, pkg_manager, tmp_path, dsd_version):
     """Test that the requirements.txt file is correct."""
     if pkg_manager == "req_txt":
-        # hf.check_reference_file(tmp_project, "requirements.txt", reference_filepath=req_txt_modified)
-        dsd_version = version("django_simple_deploy")
         context = {"current-version": dsd_version}
         hf.check_reference_file(tmp_project, "requirements.txt", "dsd-flyio", context=context, tmp_path=tmp_path)
     elif pkg_manager in ["poetry", "pipenv"]:
