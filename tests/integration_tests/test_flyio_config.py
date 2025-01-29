@@ -55,12 +55,13 @@ def test_pyproject_toml(tmp_project, pkg_manager, tmp_path, dsd_version):
         hf.check_reference_file(tmp_project, "pyproject.toml", "dsd-flyio", context=context, tmp_path=tmp_path)
 
 
-def test_pipfile(tmp_project, pkg_manager):
+def test_pipfile(tmp_project, pkg_manager, tmp_path, dsd_version):
     """Test that Pipfile is correct."""
     if pkg_manager in ("req_txt", "poetry"):
         assert not Path("Pipfile").exists()
     elif pkg_manager == "pipenv":
-        hf.check_reference_file(tmp_project, "Pipfile", "dsd-flyio")
+        context = {"current-version": dsd_version}
+        hf.check_reference_file(tmp_project, "Pipfile", "dsd-flyio", context=context, tmp_path=tmp_path)
 
 
 def test_gitignore(tmp_project):
