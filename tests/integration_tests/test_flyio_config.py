@@ -97,14 +97,14 @@ def test_creates_dockerfile(tmp_project, pkg_manager):
     elif pkg_manager == "poetry":
         hf.check_reference_file(
             tmp_project,
-            "dockerfile",
+            "Dockerfile",
             "dsd-flyio",
             reference_filename="poetry.dockerfile",
         )
     elif pkg_manager == "pipenv":
         hf.check_reference_file(
             tmp_project,
-            "dockerfile",
+            "Dockerfile",
             "dsd-flyio",
             reference_filename="pipenv.dockerfile",
         )
