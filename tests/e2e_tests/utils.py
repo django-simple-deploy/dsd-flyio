@@ -41,7 +41,7 @@ def deploy_project(app_name):
 
     print("Deploying to Fly.io...")
     if sys.platform == "linux":
-        subprocess.run("fly deploy")
+        subprocess.run("fly deploy", shell=True)
     else:
         make_sp_call("fly deploy")
 
@@ -126,12 +126,12 @@ def destroy_project(request):
     destroy_db_cmd = f"fly apps destroy -y {app_name}-db"
     print("  Destroying Fly.io project...")
     if sys.platform == "linux":
-        subprocess.run(destroy_app_cmd)
+        subprocess.run(destroy_app_cmd, shell=True)
     else:
         make_sp_call(destroy_app_cmd)
 
     print("  Destroying Fly.io database...")
     if sys.platform == "linux":
-        subprocess.run(destroy_db_cmd)
+        subprocess.run(destroy_db_cmd, shell=True)
     else:
         make_sp_call(destroy_db_cmd)
