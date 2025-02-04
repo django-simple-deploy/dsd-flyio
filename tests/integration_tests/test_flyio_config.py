@@ -93,7 +93,7 @@ def test_creates_fly_toml_file(tmp_project, pkg_manager):
 def test_creates_dockerfile(tmp_project, pkg_manager):
     """Verify that dockerfile is created correctly."""
     if pkg_manager == "req_txt":
-        hf.check_reference_file(tmp_project, "dockerfile", "dsd-flyio")
+        hf.check_reference_file(tmp_project, "Dockerfile", "dsd-flyio")
     elif pkg_manager == "poetry":
         hf.check_reference_file(
             tmp_project,
@@ -114,6 +114,8 @@ def test_creates_dockerignore_file(tmp_project):
     """Verify that dockerignore file is created correctly."""
     if sys.platform == "win32":
         reference_file = ".dockerignore-windows"
+    elif sys.platform == "linux":
+        reference_file = ".dockerignore-linux"
     else:
         reference_file = ".dockerignore"
     hf.check_reference_file(tmp_project, ".dockerignore", "dsd-flyio", reference_file)
