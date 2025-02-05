@@ -2,6 +2,8 @@
 
 import re, time
 import json
+import subprocess
+import sys
 
 from tests.e2e_tests.utils.it_helper_functions import make_sp_call
 
@@ -9,11 +11,19 @@ from tests.e2e_tests.utils.it_helper_functions import make_sp_call
 def create_project():
     """Create a project on Fly.io."""
     print("\n\nCreating a project on Fly.io...")
-    output = (
-        make_sp_call(f"fly apps create --generate-name", capture_output=True)
-        .stdout.decode()
-        .strip()
-    )
+    create_cmd = "fly apps create --generate-name"
+    if sys.platform == "linux":
+        output = (
+            subprocess.run(create_cmd, capture_output=True, shell=True)
+            .stdout.decode()
+            .strip()
+        )
+    else:
+        output = (
+            make_sp_call(create_cmd, capture_output=True)
+            .stdout.decode()
+            .strip()
+        )
     print("create_project output:", output)
 
     re_app_name = r"New app created: (.*)"
@@ -30,14 +40,25 @@ def deploy_project(app_name):
     # time.sleep(30)
 
     print("Deploying to Fly.io...")
-    make_sp_call("fly deploy")
+    if sys.platform == "linux":
+        subprocess.run("fly deploy", shell=True)
+    else:
+        make_sp_call("fly deploy")
 
     # Open project and get URL.
-    output = (
-        make_sp_call(f"fly apps open -a {app_name}", capture_output=True)
-        .stdout.decode()
-        .strip()
-    )
+    open_cmd = f"fly apps open -a {app_name}"
+    if sys.platform == "linux":
+        output = (
+            subprocess.run(open_cmd, capture_output=True, shell=True)
+            .stdout.decode()
+            .strip()
+        )
+    else:
+        output = (
+            make_sp_call(open_cmd, capture_output=True)
+            .stdout.decode()
+            .strip()
+        )
     print("fly open output:", output)
 
     re_url = r"opening (http.*) \.\.\."
@@ -54,9 +75,13 @@ def get_project_url_name():
     """Get project URL and app name of a deployed project.
     This is used when testing the automate_all workflow.
     """
-    output = (
-        make_sp_call("fly status --json", capture_output=True).stdout.decode().strip()
-    )
+    status_cmd = "fly status --json"
+    if sys.platform == "linux":
+        output = subprocess.run(status_cmd, capture_output=True, shell=True).stdout.decode().strip()
+    else:
+        output = (
+            make_sp_call("fly status --json", capture_output=True).stdout.decode().strip()
+        )
     status_json = json.loads(output)
 
     app_name = status_json["Name"]
@@ -97,8 +122,16 @@ def destroy_project(request):
         print("  No app name found; can't destroy any remote resources.")
         return None
 
+    destroy_app_cmd = f"fly apps destroy -y {app_name}"
+    destroy_db_cmd = f"fly apps destroy -y {app_name}-db"
     print("  Destroying Fly.io project...")
-    make_sp_call(f"fly apps destroy -y {app_name}")
+    if sys.platform == "linux":
+        subprocess.run(destroy_app_cmd, shell=True)
+    else:
+        make_sp_call(destroy_app_cmd)
 
     print("  Destroying Fly.io database...")
-    make_sp_call(f"fly apps destroy -y {app_name}-db")
+    if sys.platform == "linux":
+        subprocess.run(destroy_db_cmd, shell=True)
+    else:
+        make_sp_call(destroy_db_cmd)
