@@ -19,11 +19,7 @@ def create_project():
             .strip()
         )
     else:
-        output = (
-            make_sp_call(create_cmd, capture_output=True)
-            .stdout.decode()
-            .strip()
-        )
+        output = make_sp_call(create_cmd, capture_output=True).stdout.decode().strip()
     print("create_project output:", output)
 
     re_app_name = r"New app created: (.*)"
@@ -54,11 +50,7 @@ def deploy_project(app_name):
             .strip()
         )
     else:
-        output = (
-            make_sp_call(open_cmd, capture_output=True)
-            .stdout.decode()
-            .strip()
-        )
+        output = make_sp_call(open_cmd, capture_output=True).stdout.decode().strip()
     print("fly open output:", output)
 
     re_url = r"opening (http.*) \.\.\."
@@ -77,10 +69,16 @@ def get_project_url_name():
     """
     status_cmd = "fly status --json"
     if sys.platform == "linux":
-        output = subprocess.run(status_cmd, capture_output=True, shell=True).stdout.decode().strip()
+        output = (
+            subprocess.run(status_cmd, capture_output=True, shell=True)
+            .stdout.decode()
+            .strip()
+        )
     else:
         output = (
-            make_sp_call("fly status --json", capture_output=True).stdout.decode().strip()
+            make_sp_call("fly status --json", capture_output=True)
+            .stdout.decode()
+            .strip()
         )
     status_json = json.loads(output)
 
