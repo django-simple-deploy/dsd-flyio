@@ -13,6 +13,10 @@ Changelog: dsd-flyio
 #### Internal changes
 
 - Minor naming changes to make project consistent with current names in core.
+- Updated requirements.txt, for dev work.
+- Add dependabot config.
+  - Daily for main requirements.
+  - Monthly for tests/, until tests refactored to pull version from sample_project/.
 
 ### 0.9.2
 
