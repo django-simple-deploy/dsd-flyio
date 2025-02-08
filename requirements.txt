@@ -7,7 +7,6 @@ click==8.1.8
 django==5.1.6
 django-simple-deploy==0.9.4
 docutils==0.21.2
--e file:///Users/eric/projects/dsd-flyio
 id==1.5.0
 idna==3.10
 iniconfig==2.0.0
