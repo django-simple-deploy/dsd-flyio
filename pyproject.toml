@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dsd-flyio"
-version = "0.9.3"
+version = "1.0.0"
 description = "A plugin for django-simple-deploy, supporting deployments to Fly.io."
 readme = "README.md"
 
