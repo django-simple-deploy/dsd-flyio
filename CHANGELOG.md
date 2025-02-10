@@ -31,10 +31,6 @@ The stable 1.0 release of core django-simple-deploy is now available, and this p
 #### Internal changes
 
 - Minor naming changes to make project consistent with current names in core.
-- Updated requirements.txt, for dev work.
-- Add dependabot config.
-  - Daily for main requirements.
-  - Monthly for tests/, until tests refactored to pull version from sample_project/.
 
 ### 0.9.2
 
