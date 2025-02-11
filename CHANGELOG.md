@@ -6,6 +6,16 @@ Changelog: dsd-flyio
 
 The stable 1.0 release of core django-simple-deploy is now available, and this project is at 1.0 to match that.
 
+### (Unreleased)
+
+#### External changes
+
+- 
+
+#### Internal changes
+
+- Update requirements; remove unneeded requirements.in file.
+
 ### 1.0.0
 
 #### External changes
