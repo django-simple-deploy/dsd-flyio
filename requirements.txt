@@ -5,7 +5,7 @@ certifi==2025.1.31
 charset-normalizer==3.4.1
 click==8.1.8
 django==5.1.6
-django-simple-deploy==0.9.4
+django-simple-deploy==1.0.0
 docutils==0.21.2
 id==1.5.0
 idna==3.10
