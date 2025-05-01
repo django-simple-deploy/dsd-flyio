@@ -6,11 +6,11 @@ Changelog: dsd-flyio
 
 The stable 1.0 release of core django-simple-deploy is now available, and this project is at 1.0 to match that.
 
-### (Unreleased)
+### 1.1.0
 
 #### External changes
 
-- 
+- Specify Python 3.12 instead of 3.10 in Dockerfile.
 
 #### Internal changes
 
