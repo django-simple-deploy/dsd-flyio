@@ -241,13 +241,13 @@ class PlatformDeployer:
         output_obj = plugin_utils.run_quick_command(cmd)
         secrets_json = json.loads(output_obj.stdout.decode())
 
-        # Fly seems to have changed the key `name` to `Name`. Check both.
+        # Fly seems to have changed the key `Name` to `name`. Check both.
         # Update this if we get any clarification from Fly. The `name` code
         # has worked for years; it started failing around 8:00am Th 9/11/2025.
         try:
-            secrets_keys = [secret["name"] for secret in secrets_json]
-        except KeyError:
             secrets_keys = [secret["Name"] for secret in secrets_json]
+        except KeyError:
+            secrets_keys = [secret["name"] for secret in secrets_json]
 
         if needle in secrets_keys:
             msg = f"  Found {needle} in existing secrets."
