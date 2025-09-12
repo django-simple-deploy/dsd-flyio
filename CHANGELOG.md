@@ -6,6 +6,16 @@ Changelog: dsd-flyio
 
 The stable 1.0 release of core django-simple-deploy is now available, and this project is at 1.0 to match that.
 
+### 1.1.1
+
+#### External changes
+
+- N/A
+
+#### Internal changes
+
+- Use `secrets["name"]` instead of `secrets["Name"]` when checking for existing secrets.
+
 ### 1.1.0
 
 #### External changes
