@@ -11,7 +11,7 @@ import django_simple_deploy
 
 from dsd_flyio.platform_deployer import PlatformDeployer
 from .plugin_config import PluginConfig
-from .cli import PluginCLI
+from .cli import PluginCLI, validate_cli
 
 
 @django_simple_deploy.hookimpl
@@ -24,6 +24,12 @@ def dsd_get_plugin_config():
 def dsd_get_plugin_cli_args(parser):
     """Get plugin-specific CLI args."""
     plugin_cli = PluginCLI(parser)
+
+
+@django_simple_deploy.hookimpl
+def dsd_validate_cli(options):
+    """Validate and parse plugin-specific CLI args."""
+    validate_cli(options)
 
 
 @django_simple_deploy.hookimpl
