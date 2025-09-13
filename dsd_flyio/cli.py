@@ -1,5 +1,9 @@
 """Extends the core django-simple-deploy CLI."""
 
+import json
+import shlex
+import subprocess
+
 from django_simple_deploy.management.commands.utils.command_errors import (
     DSDCommandError,
 )
@@ -19,4 +23,14 @@ class PluginCLI:
 
 def validate_cli(options):
     """Validate options that were passed to CLI."""
-    return True
+    vm_size = options["vm_size"]
+
+    cmd = "fly platform vm-sizes --json"
+    cmd_parts = shlex.split(cmd)
+    output = subprocess.run(cmd_parts, capture_output=True)
+    allowed_sizes = list(json.loads(output.stdout).keys())
+
+    if vm_size and vm_size not in allowed_sizes:
+        msg = f"The vm-size {vm_size} requested is not available."
+        msg += f"\n  Allowed sizes: {' '.join(allowed_sizes)}"
+        raise DSDCommandError(msg)
