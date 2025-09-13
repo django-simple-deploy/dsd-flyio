@@ -11,6 +11,7 @@ import django_simple_deploy
 
 from dsd_flyio.platform_deployer import PlatformDeployer
 from .plugin_config import PluginConfig
+from .cli import PluginCLI
 
 
 @django_simple_deploy.hookimpl
@@ -18,6 +19,11 @@ def dsd_get_plugin_config():
     """Get platform-specific attributes needed by core."""
     plugin_config = PluginConfig()
     return plugin_config
+
+@django_simple_deploy.hookimpl
+def dsd_get_plugin_cli_args(parser):
+    """Get plugin-specific CLI args."""
+    plugin_cli = PluginCLI(parser)
 
 
 @django_simple_deploy.hookimpl
