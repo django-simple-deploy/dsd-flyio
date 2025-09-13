@@ -24,7 +24,13 @@ class PluginCLI:
 def validate_cli(options):
     """Validate options that were passed to CLI."""
     vm_size = options["vm_size"]
+    _validate_vm_size(vm_size)
 
+
+# --- Helper functions ---
+
+def _validate_vm_size(vm_size):
+    """Validate the vm size arg that was passed."""
     cmd = "fly platform vm-sizes --json"
     cmd_parts = shlex.split(cmd)
     output = subprocess.run(cmd_parts, capture_output=True)
