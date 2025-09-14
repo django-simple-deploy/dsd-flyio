@@ -9,6 +9,8 @@ from django_simple_deploy.management.commands.utils.command_errors import (
     DSDCommandError,
 )
 
+from .plugin_config import plugin_config
+
 
 class PluginCLI:
 
@@ -25,21 +27,28 @@ class PluginCLI:
 def validate_cli(options):
     """Validate options that were passed to CLI."""
     vm_size = options["vm_size"]
-
-    if not dsd_config.unit_testing:
-        _validate_vm_size(vm_size)
+    _validate_vm_size(vm_size)
 
 
 # --- Helper functions ---
 
 def _validate_vm_size(vm_size):
     """Validate the vm size arg that was passed."""
-    cmd = "fly platform vm-sizes --json"
-    cmd_parts = shlex.split(cmd)
-    output = subprocess.run(cmd_parts, capture_output=True)
-    allowed_sizes = list(json.loads(output.stdout).keys())
+    if not vm_size:
+        return
 
-    if vm_size and vm_size not in allowed_sizes:
+    if not dsd_config.unit_testing:
+        cmd = "fly platform vm-sizes --json"
+        cmd_parts = shlex.split(cmd)
+        output = subprocess.run(cmd_parts, capture_output=True)
+        allowed_sizes = list(json.loads(output.stdout).keys())
+    else:
+        allowed_sizes = ["shared-cup-1x", "shared-cpu-2x"]
+
+    if vm_size not in allowed_sizes:
         msg = f"The vm-size {vm_size} requested is not available."
         msg += f"\n  Allowed sizes: {' '.join(allowed_sizes)}"
         raise DSDCommandError(msg)
+
+    # vm_size is valid.
+    plugin_config.vm_size = vm_size
