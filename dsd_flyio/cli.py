@@ -4,6 +4,7 @@ import json
 import shlex
 import subprocess
 
+from django_simple_deploy.management.commands.utils.plugin_utils import dsd_config
 from django_simple_deploy.management.commands.utils.command_errors import (
     DSDCommandError,
 )
@@ -24,7 +25,9 @@ class PluginCLI:
 def validate_cli(options):
     """Validate options that were passed to CLI."""
     vm_size = options["vm_size"]
-    _validate_vm_size(vm_size)
+
+    if not dsd_config.unit_testing:
+        _validate_vm_size(vm_size)
 
 
 # --- Helper functions ---
