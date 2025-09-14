@@ -17,11 +17,8 @@ import requests
 
 from . import deploy_messages as platform_msgs
 
-# from ..utils import plugin_utils
 from django_simple_deploy.management.commands.utils import plugin_utils
 
-# from ..utils.plugin_utils import dsd_config
-# from ..utils.command_errors import DSDCommandError
 from django_simple_deploy.management.commands.utils.plugin_utils import dsd_config
 from django_simple_deploy.management.commands.utils.command_errors import (
     DSDCommandError,

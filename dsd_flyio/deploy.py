@@ -15,12 +15,6 @@ from .plugin_config import plugin_config
 from .cli import PluginCLI, validate_cli
 
 
-# # Create plugin_config once right here. The attributes are set in deploy.py,
-# # and then accessible by plugins. This approach keeps from having to pass the config
-# # instance between core, plugins, and these utility functions.
-# plugin_config = PluginConfig()
-
-
 @django_simple_deploy.hookimpl
 def dsd_get_plugin_config():
     """Get platform-specific attributes needed by core."""
