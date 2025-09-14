@@ -166,8 +166,7 @@ class PlatformDeployer:
             "vm_size": plugin_config.vm_size,
         }
         contents = plugin_utils.get_template_string(template_path, context)
-        while "\n\n\n" in contents:
-            contents = contents.replace("\n\n\n", "\n\n")
+        contents = plugin_utils.remove_doubled_blank_lines(contents)
 
         # Write file to project.
         path = dsd_config.project_root / "fly.toml"
