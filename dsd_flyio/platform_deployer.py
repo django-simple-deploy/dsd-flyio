@@ -16,6 +16,7 @@ from django.utils.safestring import mark_safe
 import requests
 
 from . import deploy_messages as platform_msgs
+from .plugin_config import plugin_config
 
 from django_simple_deploy.management.commands.utils import plugin_utils
 
@@ -162,8 +163,11 @@ class PlatformDeployer:
         context = {
             "deployed_project_name": self.deployed_project_name,
             "using_pipenv": (dsd_config.pkg_manager == "pipenv"),
+            "vm_size": plugin_config.vm_size,
         }
         contents = plugin_utils.get_template_string(template_path, context)
+        while "\n\n\n" in contents:
+            contents = contents.replace("\n\n\n", "\n\n")
 
         # Write file to project.
         path = dsd_config.project_root / "fly.toml"
