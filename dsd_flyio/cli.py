@@ -16,7 +16,11 @@ class PluginCLI:
 
     def __init__(self, parser):
         """Add plugin-specific args."""
-        plugin_group = parser.add_argument_group("Options for dsd-flyio")
+        group_desc = "Full documentation: https://django-simple-deploy.readthedocs.io/en/latest/quick_starts/quick_start_flyio/#customizing-the-deployment"
+        plugin_group = parser.add_argument_group(
+            title="Options for dsd-flyio",
+            description = group_desc,
+        )
 
         plugin_group.add_argument(
             "--vm-size",
