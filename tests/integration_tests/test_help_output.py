@@ -22,6 +22,8 @@ def test_plugin_help_output(tmp_project, request):
     Note: When updating this, run `manage.py deploy --help` in a terminal set
     to 80 characters wide. That splits help text at the same places as the 
     test environment.
+    On macOS, you can simply run:
+        $ COLUMNS=80 python manage.py deploy --help
     """
     cmd = "python manage.py deploy --help"
     stdout, stderr = msp.call_deploy(tmp_project, cmd, platform="fly_io")
