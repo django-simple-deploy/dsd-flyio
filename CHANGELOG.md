@@ -6,6 +6,22 @@ Changelog: dsd-flyio
 
 The stable 1.0 release of core django-simple-deploy is now available, and this project is at 1.0 to match that.
 
+### 1.2.1
+
+#### External changes
+
+- Adds `--vm-size` option to CLI.
+- Adds `[[vm]]` section to `fly.toml` when appropriate.
+- 
+
+#### Internal changes
+
+- Adds `vm_size` attribute to `plugin_config` object.
+- Defines `plugin_config` in `plugin_config.py`.
+- Validates vm size option against `flyctl` call returning valid sizes.
+- Integration test for vm-size arg.
+- Test for plugin-specific output in `--help` call.
+
 ### 1.1.1
 
 #### External changes
