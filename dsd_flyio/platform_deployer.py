@@ -16,12 +16,10 @@ from django.utils.safestring import mark_safe
 import requests
 
 from . import deploy_messages as platform_msgs
+from .plugin_config import plugin_config
 
-# from ..utils import plugin_utils
 from django_simple_deploy.management.commands.utils import plugin_utils
 
-# from ..utils.plugin_utils import dsd_config
-# from ..utils.command_errors import DSDCommandError
 from django_simple_deploy.management.commands.utils.plugin_utils import dsd_config
 from django_simple_deploy.management.commands.utils.command_errors import (
     DSDCommandError,
@@ -165,8 +163,10 @@ class PlatformDeployer:
         context = {
             "deployed_project_name": self.deployed_project_name,
             "using_pipenv": (dsd_config.pkg_manager == "pipenv"),
+            "vm_size": plugin_config.vm_size,
         }
         contents = plugin_utils.get_template_string(template_path, context)
+        contents = plugin_utils.remove_doubled_blank_lines(contents)
 
         # Write file to project.
         path = dsd_config.project_root / "fly.toml"
