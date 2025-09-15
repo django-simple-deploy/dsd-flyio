@@ -16,8 +16,9 @@ class PluginCLI:
 
     def __init__(self, parser):
         """Add plugin-specific args."""
+        plugin_group = parser.add_argument_group("Options for dsd-flyio")
 
-        parser.add_argument(
+        plugin_group.add_argument(
             "--vm-size",
             type=str,
             help="Name for a preset vm-size configuration on Fly.io, ie `shared-cpu-2x`.",
