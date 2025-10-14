@@ -162,6 +162,12 @@ def test_log_dir(tmp_project):
     assert "INFO: git status --porcelain" in log_file_text
     assert "INFO: ?? dsd_logs/" in log_file_text
 
+    # Check dsd_config values.
+    assert "nested_project: False" in log_file_text
+    assert "nanodjango_project: None" in log_file_text
+    assert "nanodjango_script: None" in log_file_text
+    assert "wagtail_project: False" in log_file_text
+
     # Spot check for success messages.
     assert (
         "INFO: --- Your project is now configured for deployment on Fly.io ---"
