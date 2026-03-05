@@ -11,6 +11,8 @@ Notes:
 import sys, os, re, json
 from pathlib import Path
 
+from django.core.management.utils import get_random_secret_key
+from django.utils.crypto import get_random_string
 from django.utils.safestring import mark_safe
 
 import requests
@@ -100,6 +102,7 @@ class PlatformDeployer:
 
         self._set_on_flyio()
         self._set_debug()
+        self._set_secret_key()
 
     def _set_on_flyio(self):
         """Set a secret, ON_FLYIO. This is used in settings.py to apply
@@ -116,6 +119,23 @@ class PlatformDeployer:
         msg = "Setting DEBUG secret..."
         plugin_utils.write_output(msg)
         self._set_secret("DEBUG", "DEBUG=FALSE")
+
+    def _set_secret_key(self):
+        """Set a secret, SECRET_KEY. This is used in settings.py as the 
+        secret key for the Django project. Keep it confidential to 
+        prevent security vulnerabilities.
+        """
+        # Generate a new key.
+        if dsd_config.on_windows:
+            # Non-alphanumeric keys have been problematic on Windows.
+            new_secret_key = get_random_string(
+                length=50, allowed_chars="abcdefghijklmnopqrstuvwxyz0123456789"
+            )
+        else:
+            new_secret_key = get_random_secret_key()
+        msg = "Setting SECRET_KEY secret..."
+        plugin_utils.write_output(msg)
+        self._set_secret("SECRET_KEY", f"SECRET_KEY={new_secret_key}", skip_logging=True)
 
     def _add_dockerfile(self):
         """Add a minimal dockerfile.
@@ -228,7 +248,7 @@ class PlatformDeployer:
             msg = platform_msgs.success_msg(log_output=dsd_config.log_output)
         plugin_utils.write_output(msg)
 
-    def _set_secret(self, needle, secret):
+    def _set_secret(self, needle, secret, skip_logging=False):
         """Set a secret on Fly, if it's not already set.
 
         DEV: Do we need to say that it's already set, and get confirmation to change
@@ -255,11 +275,14 @@ class PlatformDeployer:
             return
 
         cmd = f"fly secrets set -a {self.deployed_project_name} {secret}"
-        output_obj = plugin_utils.run_quick_command(cmd)
+        output_obj = plugin_utils.run_quick_command(cmd, skip_logging=skip_logging)
         output_str = output_obj.stdout.decode()
         plugin_utils.write_output(output_str)
 
-        msg = f"  Set secret: {secret}"
+        if skip_logging:
+            msg = f"  Set secret: {needle}"
+        else:
+            msg = f"  Set secret: {secret}"
         plugin_utils.write_output(msg)
 
     def _build_dockerignore(self):

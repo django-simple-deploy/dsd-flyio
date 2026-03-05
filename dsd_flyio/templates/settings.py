@@ -26,6 +26,9 @@ if os.environ.get("ON_FLYIO"):
     #   here may not.
     import dj_database_url
 
+    # Always use secret key from Fly.io environment variable.
+    SECRET_KEY = os.getenv("SECRET_KEY")
+
     # Use secret, if set, to update DEBUG value.
     if os.environ.get("DEBUG") == "FALSE":
         DEBUG = False
