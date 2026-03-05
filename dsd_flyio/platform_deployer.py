@@ -128,6 +128,8 @@ class PlatformDeployer:
         # Generate a new key.
         if dsd_config.on_windows:
             # Non-alphanumeric keys have been problematic on Windows.
+            # DEV: This is almost certainly related to how the command to set 
+            # the key is parsed, which may involve dsd core.
             new_secret_key = get_random_string(
                 length=50, allowed_chars="abcdefghijklmnopqrstuvwxyz0123456789"
             )
