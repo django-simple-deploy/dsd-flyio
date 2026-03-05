@@ -6,13 +6,19 @@ Changelog: dsd-flyio
 
 The stable 1.0 release of core django-simple-deploy is now available, and this project is at 1.0 to match that.
 
+### 1.2.2
+
+#### External changes
+
+- Sets a strong `SECRET_KEY` secret on Fly, and pulls that value from the environment.
+  - Note: This is the first contribution to the django-simple-deploy ecosystem from a Djangonaut Space participant. Thanks [Jan](https://github.com/janraasch)!
+
 ### 1.2.1
 
 #### External changes
 
 - Adds `--vm-size` option to CLI.
 - Adds `[[vm]]` section to `fly.toml` when appropriate.
-- 
 
 #### Internal changes
 
